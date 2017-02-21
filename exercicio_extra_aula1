@@ -1,16 +1,22 @@
 Ralacionamento de chamadas de sistema do padrão POSIX
 
 Processos:
+truncate(), recv()
 
 Memória Principal:
+read(), shm_open(), write()
 
 Arquivos:
+access(), chdir()
 
 Sistemas de E/S:
+iseek(), read()
 
 Armazanamento secundário:
+mkdir(),link(), sync()
 
 Rede:
+accept(), bind()
 
 Controle de acessos:
-  
+chown(), fcntl()
