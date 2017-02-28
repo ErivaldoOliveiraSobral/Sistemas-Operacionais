@@ -1,0 +1,60 @@
+# Escalonamnto no Linux
+
+O escalonador do Linux é baseado em time-sharing, ou seja atua na divisão de tempo de processador entre os processos.
+
+O Scheduler é o programa responsável em agendar esses processos. Ele decide qual o próximo processo que vai rodar.
+Ele é chamado de vários pontos do programa, como após colocar o processo corrrente em uma fila de espera, no final de uma chamada de
+sistema ou qualquer outro momento se faz necessário escalonar os processos. 
+Ao ser chamado o Scheduler tem uma sequencia de ações que dewvem ser tomadas para que seu trabalho possa ser feito. Essas açoes se 
+dividem em:
+  Kernel Work: o Scheduler deve realizar uma série de rotinas especifícas do kernel, e deve tratar da fila de esperas de tarefas do scheduler.
+  Seleções de processos: o Scheduler deve escolher o processo que irá rodar. A propriedade é o meio pelo qual ele escolhe
+  Troca de processos: O Scheduler salva as condições que o processo atual apresenta (contexto específico do processo) e carrega o contexto
+do novo processo que irá rodar.
+
+Em ambientes de multiprocessamento, cada processador tem um Schudeler para tratar quauis processos irão rodar nele. Processos que já
+tenham rodado em um processador tem preferência em relação aqueles que não tenham rodado ali ainda. Essa implementação permite um ligeiro
+acréscimo no desepenho.
+
+O escalonador possui 140 níveis de prioridade (quando menor o número maior a prioridade). 
+De 1 até 100 são processos em tempo real. De 101 até 140 para os demais processos de usuário.
+Nos níveis de prioridade 101 até 140, os processos recebem fatias de tempo de 20 ms.
+
+  Os processos de tempo real podem ser FIFO ou ROUND ROBIN, e possuem uma prioridade estática.
+  
+  Processos FIFO executam até voluntariamente liberarem a CPU (o nível de prioridade é mantido e não são preemptivos)
+  
+  Processos ROUND ROBIN recebem fatias de tempo. Quando todos terminam suas fatias, é dada outra fatia e eles continuam rodando no mesmo nível de prioridade.
+  
+  A prioridade dos processos de usuário é a soma de sua prioridade básica (valor de seu nice) e seu bônus dinâmico, que varia de +5 a -5.
+  
+Thread de Migrção:
+
+Em cada processador roda uma thread de migração, que distribui os processos entre os processadores, evitando que alguns processadores 
+fiquem ociosos enquando outros sobregarregados.
+
+A thread de migração é chamado periodicamente sempre que o sistema se encontra desbalanceado. 
+
+# Escalonamento no Windows
+
+Os processo no windows saõ formados por conjuntos de threads, cada thread é uma unidade em excução no sistema operacional. Cada thread
+possui sua própria pilha de execução, e seu contexto de execução (representados pelos registradores da CPU) e sua prioridade.
+
+O escalonamento é baseado em prioridades. Cada thread possui uma prioridade, que varia de 0 até 31 (quando maior o número, maior a 
+prioridade). A prioridade 0 é atribuída a uma thread especial, chamada zero thread, que é responsável por zerar as páginas livres
+no sistema. Somente essa thread pode receber a prioridade 0.
+
+As prioridades definem duas classes de threads:
+  Real Time: prioridade de 16 até 31
+  Normal: prioridade de 0 até 15
+
+O escalonador sempre escolhe a Thread de maior prioridade. Threads com prioridade normal recebem fatias de tempo. No Windows 2000
+profissional, a fatia de tempo era de 20 ms, no Windows Server de 120 ms (para erar menos troca de contextos).
+
+Suporte de Multiprocessamento: Indepedentemente de haver u único processador ou vários, irá existir somente uma fila de processos
+aptos a serem executados. Porém, a exitência de múltiplos processadores vai permitir o paralelismo físico na execução das threads.
+
+O Windows 2000 implementa o conceito de afinidade, que define o processador onde a thread deve execultar. A afinidade pode ser:
+  HARD: indica a existência de uma dependência que obriga a thread a rodar sempre no processador especificado.
+  SOFT: o sistema tenta executar a thread no processo que ela havia ocupado previamente, para aproveitamento de dados da execução
+anterior que podem se encontrar em cache (o que implica em ganho de performance).
