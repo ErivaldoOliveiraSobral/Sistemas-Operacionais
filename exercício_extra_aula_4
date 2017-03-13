@@ -1,0 +1,12 @@
+O algoritmo de Peterson é um algoritmo de programação concorrente para exclusão mútua.
+
+Permite que dois ou mais processos sejam executados utilizando os mesmos recursos sem
+que aja conflitos.
+
+Um exemplo seria quando dois computadores necessitam utilizar o recurso de um scanner
+compartilhado. Para que não aja conflitos, um processo espera até que o outro processo seja 
+finalizado.
+
+Esse algoritmo serve para proteger uma sessão crítica, onde por exemplo, um processo de 
+scanner entre dois computadores poderia gerar algum conflito, como por exemplo, distorção
+da imagem caso os dois processos fosse executados ao mesmo tempo utilizando o mesmo recurso.
