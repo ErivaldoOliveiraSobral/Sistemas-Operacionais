@@ -1,4 +1,4 @@
-* Microsoft FAT16
+*Microsoft FAT16
 
 Cluster size			2Kb à 32Kb
 Maximum partion size		2 Gb
@@ -7,7 +7,7 @@ Filenames			8 bit ASCII characters
 File permission supported	No
 Transaction log			No
 
-* Microsoft FAT12
+*Microsoft FAT12
 
 Cluster size			0,5 Kb à 4Kb
 Maximum partion size		16 Mb
